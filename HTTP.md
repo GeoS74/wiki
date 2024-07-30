@@ -6,6 +6,7 @@
 ## Почитать
 - [Почему сайт должен весить не более 14кБ](https://habr.com/ru/post/684836/)
 
+- [Протокол HTTP/1.1 - перевод на русский](https://www.opennet.ru/docs/RUS/http11/)
 - #### [Спецификации HTTP](https://httpwg.org/specs/)
 - #### [Спецификация RFC2616](https://datatracker.ietf.org/doc/html/rfc2616)
 - #### [HTTP dev.mozilla](https://developer.mozilla.org/ru/docs/Web/HTTP)
