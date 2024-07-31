@@ -25,4 +25,7 @@ public class Test {
 }
 ```
 
+
+См. также [[Свойства системы|как вывести все свойства класса System]].
+
 #propertiesjava #configjava
