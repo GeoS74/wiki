@@ -97,3 +97,46 @@ geos
 ```
 
 Почитать про [Протокол HTTP/1.1 - перевод на русский](https://www.opennet.ru/docs/RUS/http11/)
+
+## Клиент к серверу
+
+```java
+package ru.sgn74.echoclient;
+import java.io.*;
+import java.net.Socket;
+
+public class EchoClient {
+    private static Socket clientSocket;
+    private static BufferedReader reader;
+    private static BufferedReader in;
+    private static BufferedWriter out;
+    
+    public static void main(String[] args) {
+        int portNumber = 8000;
+        try {
+            try {
+                clientSocket = new Socket("localhost", portNumber);
+                reader = new BufferedReader(new InputStreamReader(System.in));
+                in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
+
+                while(true) {
+                    System.out.println("Вы что-то хотели сказать? Введите это здесь:");
+                    String word = reader.readLine();
+                    out.write(word + "\n");
+                    out.flush();
+                    String serverWord = in.readLine();
+                    System.out.println(serverWord);
+                }
+            } finally { // в любом случае необходимо закрыть сокет и потоки
+                System.out.println("Клиент был закрыт...");
+                clientSocket.close();
+                in.close();
+                out.close();
+            }
+        } catch (IOException e) {
+            System.err.println(e);
+        }
+    }
+}
+```
