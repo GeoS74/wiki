@@ -1,6 +1,7 @@
 # Redis
 
 [Документация](https://redis.io/docs/about/)
+[Русскоязычная документация](https://github.com/rudocs/redis/blob/main/docs/index.md)
 
 > Redis означает REmote DIctionary Server (англ. сервер удалённого словаря)
 
