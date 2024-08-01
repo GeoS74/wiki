@@ -37,8 +37,8 @@ redis-server redis.conf
 redis-cli -h localhost -p 6385
 
 // после запуска клиента если требуется ввести пароль, то выполнить
-AUTH
-// ввести пароль
+AUTH {secret_pass}
+// взамен {secret_pass} указать пароль
 ```
 
 
