@@ -4,9 +4,6 @@
 
 
 
-
-[GoodbyeDPI — утилита для обхода Deep Packet Inspection](https://github.com/ValdikSS/GoodbyeDPI)
-
 [Dark web](https://pixelprivacy.com/vpn/how-to-access-the-dark-web/)
 
 ### Обход блокировки Youtube
