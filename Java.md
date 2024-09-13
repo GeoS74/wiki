@@ -1,8 +1,13 @@
 # Java
 
+[Java и HTTP - материалы ВУЗа](https://study.sfu-kras.ru/DATA/docs/java/java_http/)
+
 
 #### [[Простой HTTP сервер на Java]]
 ### [[Примеры комбинаций клиент-сервер]]
+
+### [[Сервер читающий файл]]
+
 #### [[JDBC Postgres Java]]
 
 #### [[log4j]]
