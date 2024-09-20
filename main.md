@@ -19,6 +19,7 @@
 - ### [[Markdown]]
 - ### [[YAML]]
 - ### [[SVG]]
+- ### [[Batch файлы]]
 - ### [[Parsing]]
 - ### [[FreeJS]]
 - ### [[Telegram Bot]]
