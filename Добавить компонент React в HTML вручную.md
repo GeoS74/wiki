@@ -82,4 +82,26 @@ root.render(<App tab="home" />);
 ```
 Т.к. в этом примере используется подключение библиотеки [[React]] через cdn сразу в html страницу, нет возможности импортировать 'react-dom/client'. А сама библиотека, полученная через cdn также не содержит в себе 'react-dom/client'. Возможно это добавят в будущих сборках.
 
+### Решено только не работают хуки
+
+```jsx
+const MyComponent = (
+  <div>
+    <h1>Blog Title</h1>
+  </div>
+);
+
+const root = ReactDOM.createRoot(document.getElementById("component"));
+root.render(MyComponent);
+
+
+// или так
+function Foo() {
+  return <h1>hello</h1>
+}
+
+root.render(Foo());
+```
+
+
 #babel #react-dom
