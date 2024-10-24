@@ -1,5 +1,7 @@
 # Добавить компонент React в HTML вручную
 
+При таком подходе к html странице подключаются две библиотеки [[React]]. Собственно сам React и ReactDOM. Смотри правильно работающий пример в самом низу этой заметки.
+
 
 Исходный html файл:
 
@@ -82,25 +84,35 @@ root.render(<App tab="home" />);
 ```
 Т.к. в этом примере используется подключение библиотеки [[React]] через cdn сразу в html страницу, нет возможности импортировать 'react-dom/client'. А сама библиотека, полученная через cdn также не содержит в себе 'react-dom/client'. Возможно это добавят в будущих сборках.
 
-### Решено только не работают хуки
+### Решено  - правильное использование
+
+```html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+</head>
+<body>
+  <div id="component"></div>
+  <script src="component.js" type="module"></script>
+</body>
+</html>
+```
+
+> ВАЖНО: подключаемый скрипт должен быть обозначен как `type="module`, чтобы внутри .jsx компонента можно было выполнять export/import.
 
 ```jsx
-const MyComponent = (
-  <div>
-    <h1>Blog Title</h1>
+function App() {
+  const [count, setCount] = React.useState(0);
+  
+  return <div onClick={() => setCount(count + 1)}>
+    count: {count}
   </div>
-);
-
-const root = ReactDOM.createRoot(document.getElementById("component"));
-root.render(MyComponent);
-
-
-// или так
-function Foo() {
-  return <h1>hello</h1>
 }
 
-root.render(Foo());
+const root = ReactDOM.createRoot(document.getElementById("component"));
+root.render(<App />)
 ```
 
 
