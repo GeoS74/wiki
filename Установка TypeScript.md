@@ -80,4 +80,6 @@ npm i -g typescript
 ```
 
 
+Читай дальше [[Старт проекта]] на [[TypeScript]]
+
 #tsconfig #typescriptinstall
