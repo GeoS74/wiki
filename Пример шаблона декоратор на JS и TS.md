@@ -23,26 +23,20 @@ console.log(new Sprinkles(new Milk(new Coffee())).cost()); // 2.2
 ```ts
 function Sprinkles(target: any){
   return class extends target {
-    cost(): number {
-      return super.cost() + 0.7;
-    }
+    cost(): number { return super.cost() + 0.7; }
   }
 }
 
 function Milk(target: any){
   return class extends target {
-    cost(): number {
-      return super.cost() + 0.5;
-    }
+    cost(): number { return super.cost() + 0.5; }
   }
 }
 
 @Milk
 @Sprinkles
 class Coffee {
-  cost() {
-    return 1;
-  }
+  cost() { return 1; }
 }
 
 console.log(new Coffee().cost()); // 2.2
@@ -60,18 +54,14 @@ function Addition(ingredient: string) {
   }
 
   return (target: any) => class extends target {
-    cost(): number {
-      return super.cost() + x;
-    }
+    cost(): number { return super.cost() + x; }
   }
 }
 
 @Addition('Milk')
 @Addition('Sprinkles')
 class Coffee {
-  cost() {
-    return 1;
-  }
+  cost() { return 1; }
 }
 console.log(new Coffee().cost()); // 2.2
 ```
@@ -88,9 +78,7 @@ function Addition(ingredient: string) {
     }
 
     return (target: any) => class extends target {
-        cost(): number {
-            return super.cost() + x;
-        }
+        cost(): number { return super.cost() + x; }
     }
 }
 ```
