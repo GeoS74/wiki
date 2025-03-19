@@ -31,3 +31,5 @@ http {
 [Подробнее в документации](https://docs.nginx.com/nginx/admin-guide/basic-functionality/managing-configuration-files/)
 
 Читай про [[Использование официального образа nginx | конфигурирование официального образа.]]
+
+### [[Установка content-type для разных типов файлов nginx]]
