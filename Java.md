@@ -2,6 +2,7 @@
 
 [Java и HTTP - материалы ВУЗа](https://study.sfu-kras.ru/DATA/docs/java/java_http/)
 
+### [[Компиляция приложения Java]]
 ## [[JavaFX]]
 #### [[Простой HTTP сервер на Java]]
 ### [[Примеры комбинаций клиент-сервер]]
