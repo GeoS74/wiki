@@ -83,6 +83,8 @@ curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot-nginx/c
 curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot/certbot/ssl-dhparams.pem > "$data_path/conf/ssl-dhparams.pem"
 ```
 
+ВАЖНО!!! перед запуском скрипта не забудь запустить контейнеры с [[Nginx]].
+
 [[chmod|Расширить права ]] на этот файл скрипта  и запустить его:
 
 ```bash
