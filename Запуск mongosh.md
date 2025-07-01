@@ -18,4 +18,13 @@ mongosh "mongodb://localhost:27017"
 mongosh --host localhost --port 27017
 ```
 
+### Запуск mongosh в контейнере docker
+
+Для запуска mongosh в [[Контейнеры Docker|docker контейнере]] сначала подключаемся к запущенному контейнеру, а затем:
+
+```bash
+mongosh -u <username> -p <password> --authenticationDatabase admin
+```
+
+
 #mongosh
