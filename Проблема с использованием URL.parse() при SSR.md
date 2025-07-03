@@ -36,16 +36,38 @@ const puppeteer = require('puppeteer');
   // Вставляем полифил для URL.parse
   await page.evaluateOnNewDocument(() => {
     if (typeof URL.parse === 'undefined') {
-      URL.parse = function(url) {
-        const parsed = new URL(url);
-        return {
-          protocol: parsed.protocol,
-          hostname: parsed.hostname,
-          pathname: parsed.pathname,
-          query: parsed.searchParams,
-          href: parsed.href,
-        };
-      };
+      URL.parse = function (url) {
+
+      try {
+        // Если URL валидный - парсим стандартным способом
+        const parsed = new URL(url);
+        return {
+          protocol: parsed.protocol,
+          hostname: parsed.hostname,
+          pathname: parsed.pathname,
+          query: parsed.searchParams,
+          href: parsed.href,
+          origin: parsed.origin,
+          port: parsed.port,
+          hash: parsed.hash
+        };
+      } catch (e) {
+        // Фоллбек для невалидных URL
+        //Может быть такая ошибка TypeError: Failed to construct 'URL': Invalid URL
+        const dummyLink = document.createElement('a');
+        dummyLink.href = url;
+        return {
+          protocol: dummyLink.protocol,
+          hostname: dummyLink.hostname,
+          pathname: dummyLink.pathname,
+          query: new URLSearchParams(dummyLink.search),
+          href: dummyLink.href,
+          origin: dummyLink.protocol + '//' + dummyLink.host,
+          port: dummyLink.port,
+          hash: dummyLink.hash
+        };
+      }
+    };
     }
   });
 
@@ -61,14 +83,7 @@ const puppeteer = require('puppeteer');
 await page.evaluateOnNewDocument(() => {
   if (!('parse' in URL)) {
     (URL as any).parse = function(url: string) {
-      const parsed = new URL(url);
-      return {
-        protocol: parsed.protocol,
-        hostname: parsed.hostname,
-        pathname: parsed.pathname,
-        query: parsed.searchParams,
-        href: parsed.href
-      };
+      // тут код полифила
     };
   }
 });
@@ -82,4 +97,26 @@ await page.evaluateOnNewDocument(() => {
 
 `(URL as any)` Проблема:  TypeScript знает, что стандартный `URL` не имеет метода `parse`, и выдаст ошибку.  Решение: `(URL as any)` — временно отключает проверку типов для `URL`, позволяя добавить кастомный метод.
 
-#puppeteer 
+
+### Полифил для Promise.withResolvers
+
+Дополнительно ещё один полифил
+
+```
+if (!Promise.withResolvers) {
+      Promise.withResolvers = function () {
+        let resolve;
+        let reject;
+
+        const promise = new Promise((res, rej) => {
+          resolve = res;
+          reject = rej;
+        });
+
+        return { promise, resolve, reject };
+      };
+}
+```
+
+
+#puppeteer #URL.parse
