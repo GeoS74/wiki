@@ -15,30 +15,35 @@ location /admin/ {
 
 ##### Настройка кеширования в основном nginx (nginx.conf или default.conf)
 
-> При использовании [[Использование официального образа nginx | официального образа nginx]] нельзя указывать настройки на уровне http, но можно использовать на уровне server
+> При использовании [[Использование официального образа nginx | официального образа nginx]] нельзя указывать настройки на уровне http, но можно использовать на уровне server. Читай про  [[Создание кастомного образа на основе nginx]].
 
 ```
+http{
+
+# путь для кеша
+  proxy_cache_path /var/cache/nginx levels=1:2 keys_zone=static_cache:10m inactive=60m use_temp_path=off;
+  
 server {
   listen 80;
   server_name ubp2a2.ru www.ubp2a2.ru;
-
-  # путь для кеша
-  proxy_cache_path /var/cache/nginx levels=1:2 keys_zone=static_cache:10m inactive=60m use_temp_path=off;
 
   location ~\.js|css|ico|woff2|txt|svg|ttf$ {
     proxy_pass http://react:3333;
 	
 	# кеширование статики
+	# nginx кеш
 	proxy_cache static_cache;
 	proxy_cache_key "$scheme$host$request_uri";
 	proxy_cache_valid 200 30d; # кешировать на 30 дней
-	expires 30d; # браузерный кеш
+	# браузерный кеш
+	expires 30d;
 	add_header Cache-Control "public, immutable";
 	add_header X-Cache-Status $upstream_cache_status;
   }
 }
+}
 ```
- > это не сработает для уровня server!!! `proxy_cache_path /var/cache/nginx levels=1:2 keys_zone=static_cache:10m inactive=60m use_temp_path=off;` надо определять на уровне http
+ > `proxy_cache_path /var/cache/nginx levels=1:2 keys_zone=static_cache:10m inactive=60m use_temp_path=off;` надо определять на уровне http
 
 `proxy_cache_path` - путь, где хранится кеш. папка должна существовать. (читай ниже как прокинуть её через docker-compose).
 
