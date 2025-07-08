@@ -10,10 +10,10 @@ docker logs --tail 100 <container_name>  # последние 100 строк
 docker logs -f <container_name>  # режим реального времени (как tail -f)
 ```
 
-Фильтрация логов (например, только access-логи):
+Фильтрация логов (например, только access-логи и исключить определённый IP):
 
 ```
-docker logs <container_name> 2>&1 | grep -E 'GET|POST|HTTP'
+docker logs <container_name> 2>&1 | grep -E 'GET|POST|HTTP'  | grep -v '94\.181\.34\.252'
 ```
 
 (здесь `2>&1` перенаправляет stderr в stdout, так как Nginx пишет access-логи в stdout, а error-логи — в stderr)
