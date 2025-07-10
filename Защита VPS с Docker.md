@@ -84,3 +84,4 @@ sudo ufw deny 80/tcp
 sudo ufw deny 443/tcp
 ```
 
+Читай дальне про [[Закрыть доступ для root по SSH и сменить порт]].
