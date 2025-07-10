@@ -65,13 +65,17 @@ systemctl restart sshd
 
 ##### Дополнительно - отключение парольной аутентификации
 
-Отредактировать файл `/etc/ssh/sshd_config` строку `PasswordAuthentication yes` заменить на `PasswordAuthentication no`
+1) Отредактировать файл `/etc/ssh/sshd_config` строку `PasswordAuthentication yes` заменить на `PasswordAuthentication no`
+2) Установить  `PubkeyAuthentication yes`
+ 
+> Если `/etc/ssh/sshd_config` подключает другие конфиги, то в них также установить `PasswordAuthentication no`
 
 Перезапустить SSH
 
 ```bash
 systemctl restart sshd
 ```
+
 
 
 #ssh #безопасность
