@@ -15,6 +15,7 @@
 - ### [[PostgreSQL]]
 - ### [[Elasticsearch]]
 - ### [[Redis]]
+- ### [[RabbitMQ]]
 - ### [[Docker]]
 - ### [[Markdown]]
 - ### [[YAML]]
