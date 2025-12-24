@@ -29,6 +29,7 @@
 - ### [[Test]]
 - ### [[Develop]]
 - ### [[VPS]]
+- ### [[Windows]]
 
 ### Projects
 - #### [[Сайты]]
