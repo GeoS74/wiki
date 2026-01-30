@@ -4,6 +4,8 @@
 
 После пуша коммита на github, система должна подключиться к VPS, собрать образ [[Docker]], остановить контейнер (если есть) и запустить новый контейнер на основе собранного образа.
 
+>Прим.: если надо сделать коммит без запуска Actions, то самый простой способ это в комментарий добавить `[skip ci]`. Выглядит так: `git commit -m "bla-bla [skip ci]"`
+
 ### 1. Создать проект
 
 Здесь писать ничего не буду. Создаём простой проект на [[NodeJS]] для теста.
@@ -114,6 +116,7 @@ jobs:
         "
 ```
 
+##### Небольшие пояснения:
 
 `runs-on: ubuntu-latest` - это система, на которой запускается GitHub Actions, а не VPS. Поэтому версию не меняем.
 
@@ -122,7 +125,6 @@ name: Checkout code
 uses: actions/checkout@v3
 ```
 Скачивает код репозитория внутрь виртуальной машины GitHub Actions и переходит на ветку `main`. Ветку выберет исходя из `branches: [ main ]`, но можно указать вручную:
-
 ```
 - name: Checkout code
   uses: actions/checkout@v3
@@ -130,9 +132,86 @@ uses: actions/checkout@v3
 	  ref: main
 ```
 
+### 6. Добавляем тестирование перед деплоем
+
+Файл с пайплайном `./github/workflows/deploy.yml` теперь такой:
+
+```yml
+name: Deploy to VPS
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  # добавить этот блок
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '19'
+        cache: 'npm'
+    - name: Install dependencies
+      run: npm ci
+    - name: Run tests
+      run: npm test
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test  # Запустится только если test job успешен
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        ref: main
+
+    - name: Setup SSH
+      uses: webfactory/ssh-agent@v0.7.0
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: Deploy to VPS
+      run: |
+        ssh -o StrictHostKeyChecking=no deployer@${{ secrets.VPS_HOST }} "
+          # Создаём папку, если её нет
+          mkdir -p ~/app
+          cd ~/app
+          # Если это не git-репозиторий — клонируем
+          if [ ! -d .git ]; then
+            git clone https://github.com/GeoS74/test-cicd.git .
+          fi
+          git pull origin main &&
+          docker build -t app:0.0.1 . &&
+          docker stop myapp-container || true &&
+          docker rm myapp-container || true &&
+          docker run -d \
+            --name myapp-container \
+            --restart unless-stopped \
+            -p 3000:3000 \
+            app:0.0.1
+        "
+```
+
+##### Небольшие пояснения:
+
+`cache: 'npm'` - кеширует папку `node_modules` между запусками workflow.
+
+Как работает:
+1. При первом запуске `npm ci` сохраняет зависимости в кеш GitHub Actions
+2. При следующих запусках зависимости берутся из кеша, а не устанавливаются заново
+3. Ускоряет выполнение job (экономит 30-60 секунд)
 
 
+`npm ci` предпочтительнее для CI/CD:
+1. Чистая установка - удаляет `node_modules` перед установкой
+2. Использует `package-lock.json` - устанавливает точные версии, гарантирует повторяемость
+3. Быстрее для чистых инсталляций
+4. Строгий - если `package-lock.json` не синхронизирован с `package.json`, падает с ошибкой
 
+`npm i` - для локальной разработки, `npm ci` - для production/CI.
 
 
 #ci/cd
