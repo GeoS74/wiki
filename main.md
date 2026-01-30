@@ -30,6 +30,7 @@
 - ### [[Develop]]
 - ### [[VPS]]
 - ### [[Windows]]
+- ### [[CI-CD]]
 
 ### Projects
 - #### [[Сайты]]
